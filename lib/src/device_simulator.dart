@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 // import 'package:custom_navigator/custom_navigator.dart';
 
 import 'device_spec_list.dart';
-import 'disabled.dart';
+// import 'disabled.dart';
 import 'fake_android_status_bar.dart';
 import 'fake_ios_status_bar.dart';
 import 'apple_icon.dart';
+import 'dart:ui' as ui;
 
 const double _kSettingsHeight = 72.0;
 final Color _kBackgroundColor = Colors.grey[900];
@@ -77,8 +78,10 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
   Widget build(BuildContext context) {
     if (!widget.enable) return widget.child;
 
-    var mq = MediaQuery.of(context);
-    var theme = Theme.of(context);
+    var mq = MediaQueryData.fromWindow(ui.window);
+    var theme = Theme.of(context) ?? ThemeData();
+
+    if (mq == null) return widget.child;
 
     // if (mq.size.width < 768.0 || mq.size.height < 768.0) {
     //   return DisabledDeviceSimulator(
@@ -368,22 +371,27 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
         ],
       ),
     );
-
-    return GestureDetector(
-      behavior: _screenshotMode
-          ? HitTestBehavior.opaque
-          : HitTestBehavior.deferToChild,
-      child: IgnorePointer(
-        ignoring: _screenshotMode,
-        child: screen,
+    return MediaQuery(
+      data: mq,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: GestureDetector(
+          behavior: _screenshotMode
+              ? HitTestBehavior.opaque
+              : HitTestBehavior.deferToChild,
+          child: IgnorePointer(
+            ignoring: _screenshotMode,
+            child: screen,
+          ),
+          onTap: _screenshotMode
+              ? () {
+                  setState(() {
+                    _screenshotMode = false;
+                  });
+                }
+              : null,
+        ),
       ),
-      onTap: _screenshotMode
-          ? () {
-              setState(() {
-                _screenshotMode = false;
-              });
-            }
-          : null,
     );
   }
 }

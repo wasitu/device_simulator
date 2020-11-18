@@ -12,12 +12,12 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'DeviceSimulator demo',
-      home: DeviceSimulator(
-        brightness: Brightness.dark,
-        enable: debugEnableDeviceSimulator,
-        child: Scaffold(
+    return DeviceSimulator(
+      brightness: Brightness.dark,
+      enable: debugEnableDeviceSimulator,
+      child: MaterialApp(
+        title: 'DeviceSimulator demo',
+        home: Scaffold(
           appBar: AppBar(
             title: Text('DeviceSimulator Demo'),
           ),
