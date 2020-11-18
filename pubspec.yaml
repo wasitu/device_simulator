@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  custom_navigator: ^0.3.0
+  # custom_navigator: ^0.3.0
 
 dev_dependencies:
   flutter_test:

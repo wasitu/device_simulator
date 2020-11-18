@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-import 'package:custom_navigator/custom_navigator.dart';
+// import 'package:custom_navigator/custom_navigator.dart';
 
 import 'device_spec_list.dart';
 import 'disabled.dart';
@@ -65,7 +65,7 @@ class DeviceSimulator extends StatefulWidget {
 
 class _DeviceSimulatorState extends State<DeviceSimulator> {
   Key _contentKey = UniqueKey();
-  Key _navigatorKey = GlobalKey<NavigatorState>();
+  // Key _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -80,12 +80,12 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
     var mq = MediaQuery.of(context);
     var theme = Theme.of(context);
 
-    if (mq.size.width < 768.0 || mq.size.height < 768.0) {
-      return DisabledDeviceSimulator(
-        child: widget.child,
-        style: _kTextStyle,
-      );
-    }
+    // if (mq.size.width < 768.0 || mq.size.height < 768.0) {
+    //   return DisabledDeviceSimulator(
+    //     child: widget.child,
+    //     style: _kTextStyle,
+    //   );
+    // }
 
     var specs = _platform == TargetPlatform.iOS ? iosSpecs : androidSpecs;
     var spec = specs[_currentDevice];
@@ -127,11 +127,12 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
       ),
       child: Theme(
         data: theme.copyWith(platform: _platform),
-        child: CustomNavigator(
-          navigatorKey: _navigatorKey,
-          home: widget.child,
-          pageRoute: PageRoutes.materialPageRoute,
-        ),
+        child: widget.child,
+        // CustomNavigator(
+        //   navigatorKey: _navigatorKey,
+        //   home: widget.child,
+        //   pageRoute: PageRoutes.materialPageRoute,
+        // ),
       ),
     );
 
