@@ -78,7 +78,8 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
   Widget build(BuildContext context) {
     if (!widget.enable) return widget.child;
 
-    var mq = MediaQueryData.fromWindow(ui.window);
+    var mq = MediaQuery.of(context, nullOk: true) ??
+        MediaQueryData.fromWindow(ui.window);
     var theme = Theme.of(context) ?? ThemeData();
 
     if (mq == null) return widget.child;
@@ -371,27 +372,21 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
         ],
       ),
     );
-    return MediaQuery(
-      data: mq,
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: GestureDetector(
-          behavior: _screenshotMode
-              ? HitTestBehavior.opaque
-              : HitTestBehavior.deferToChild,
-          child: IgnorePointer(
-            ignoring: _screenshotMode,
-            child: screen,
-          ),
-          onTap: _screenshotMode
-              ? () {
-                  setState(() {
-                    _screenshotMode = false;
-                  });
-                }
-              : null,
-        ),
+    return GestureDetector(
+      behavior: _screenshotMode
+          ? HitTestBehavior.opaque
+          : HitTestBehavior.deferToChild,
+      child: IgnorePointer(
+        ignoring: _screenshotMode,
+        child: screen,
       ),
+      onTap: _screenshotMode
+          ? () {
+              setState(() {
+                _screenshotMode = false;
+              });
+            }
+          : null,
     );
   }
 }
